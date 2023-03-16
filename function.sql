@@ -1,30 +1,15 @@
-# ************************************************************
-# Sequel Pro SQL dump
-# Version 4541
-#
-# http://www.sequelpro.com/
-# https://github.com/sequelpro/sequelpro
-#
-# Host: 127.0.0.1 (MySQL 5.5.5-10.11.2-MariaDB)
-# Database: adoc_test
-# Generation Time: 2023-03-16 23:36:17 +0000
-# ************************************************************
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
-
-# Dump of table entity_types
-# ------------------------------------------------------------
-
+#--------------------------------------------------------------
+#--------------------------------------------------------------
+#------- Se elimina la tabla si existe
+#--------------------------------------------------------------
+#--------------------------------------------------------------
 DROP TABLE IF EXISTS `entity_types`;
 
+#--------------------------------------------------------------
+#--------------------------------------------------------------
+#------- Se crean las tablas con la definicion de cada columna
+#--------------------------------------------------------------
+#--------------------------------------------------------------
 CREATE TABLE `entity_types` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -38,9 +23,11 @@ CREATE TABLE `entity_types` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-LOCK TABLES `entity_types` WRITE;
-/*!40000 ALTER TABLE `entity_types` DISABLE KEYS */;
-
+#--------------------------------------------------------------
+#--------------------------------------------------------------
+#------- Se insertan unos valores
+#--------------------------------------------------------------
+#--------------------------------------------------------------
 INSERT INTO `entity_types` (`id`, `name`, `name_machine`, `type`, `module`, `entity_fields`, `view_mode`, `created_at`, `updated_at`)
 VALUES
 	(4,'Empleados','empleados',NULL,3,0,1,'2021-05-26 07:39:40','2021-05-26 07:39:40'),
@@ -62,15 +49,19 @@ VALUES
 	(20,'Remitente','remitente',NULL,1,0,1,'2021-11-30 09:47:29','2021-11-30 09:47:29'),
 	(21,'Tipo de radicado','tipoderadicado',NULL,1,0,1,'2021-11-30 09:54:17','2021-11-30 09:54:17');
 
-/*!40000 ALTER TABLE `entity_types` ENABLE KEYS */;
-UNLOCK TABLES;
 
-
-# Dump of table modules
-# ------------------------------------------------------------
-
+#--------------------------------------------------------------
+#--------------------------------------------------------------
+#------- Se elimina la tabla si existe
+#--------------------------------------------------------------
+#--------------------------------------------------------------
 DROP TABLE IF EXISTS `modules`;
 
+#--------------------------------------------------------------
+#--------------------------------------------------------------
+#------- Se crean las tablas con la definicion de cada columna
+#--------------------------------------------------------------
+#--------------------------------------------------------------
 CREATE TABLE `modules` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -78,10 +69,11 @@ CREATE TABLE `modules` (
   `has_entities` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-LOCK TABLES `modules` WRITE;
-/*!40000 ALTER TABLE `modules` DISABLE KEYS */;
-
+#--------------------------------------------------------------
+#--------------------------------------------------------------
+#------- Se insertan unos valores
+#--------------------------------------------------------------
+#--------------------------------------------------------------
 INSERT INTO `modules` (`id`, `name`, `machine_name`, `has_entities`)
 VALUES
 	(1,'Gestor documental','manager',1),
@@ -90,22 +82,14 @@ VALUES
 	(4,'Inventario','inventory',1),
 	(5,'Configuración','settings',1);
 
-/*!40000 ALTER TABLE `modules` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-
---
--- Dumping routines (FUNCTION) for database 'adoc_test'
---
+#--------------------------------------------------------------
+#--------------------------------------------------------------
+#------- Se crea la funcion
+#--------------------------------------------------------------
+#--------------------------------------------------------------
 DELIMITER ;;
-
-# Dump of FUNCTION GetTotalUsedModules
-# ------------------------------------------------------------
-
-/*!50003 DROP FUNCTION IF EXISTS `GetTotalUsedModules` */;;
-/*!50003 SET SESSION SQL_MODE="STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"*/;;
-/*!50003 CREATE*/ /*!50020 DEFINER=`root`@`localhost`*/ /*!50003 FUNCTION `GetTotalUsedModules`() RETURNS int(11)
+CREATE FUNCTION GetTotalUsedModules ()
+RETURNS INT
 BEGIN
 	DECLARE total INT;
 	SET total = 0;
@@ -113,14 +97,5 @@ BEGIN
 		SELECT module FROM `entity_types` GROUP BY module
 	);
 	RETURN total;
-END */;;
-
-/*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE */;;
+END;;
 DELIMITER ;
-
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
